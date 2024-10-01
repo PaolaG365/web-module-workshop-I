@@ -30,4 +30,6 @@ class Pet(models.Model):
 
         return super().save(*args, **kwargs)
 
+    def __str__(self) -> str:
+        return self.name
 

@@ -22,9 +22,9 @@ class ImageSizeValidator:
         message: custom error message if validation fails
     """
     def __init__(self, limit: int, data_size_type: str, message='Image size exceeds set limit'):
-        limit = limit
-        data_size_type = data_size_type
-        message= message
+        self.limit = limit
+        self.data_size_type = data_size_type
+        self.message= message
 
     def __call__(self, file):
         if file.size > self.limit * file_size_map[self.data_size_type]:
@@ -35,9 +35,9 @@ class ImageSizeValidator:
             'petstagram.photos.validators.ImageSizeValidator',
             (),
             {
-                'message': self.message,
                 'limit': self.limit,
                 'data_size_type': self.data_size_type,
+                'message': self.message,
                 }
         )
 

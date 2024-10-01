@@ -19,11 +19,21 @@ class Photo(models.Model):
         blank=True,
     )
 
+    location = models.CharField(
+        max_length=30,
+        default='not selected'
+    )
+
     tagged_pets = models.ManyToManyField(
         to=Pet,
         blank=True,
+        related_name='tagged_pets'
     )
 
     date_of_publication = models.DateField(
         auto_now=True,
     )
+
+    def __str__(self) -> str:
+        return str(self.pk)
+
