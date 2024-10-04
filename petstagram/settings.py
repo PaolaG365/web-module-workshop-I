@@ -33,7 +33,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-MY_APPS = []
+MY_APPS = [
+    'petstagram.photos',
+    'petstagram.accounts',
+    'petstagram.pets',
+    'petstagram.common',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
