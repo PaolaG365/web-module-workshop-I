@@ -313,8 +313,8 @@
     </div>
 
     <!-- Post image -->
-    <div class="imgBx" id="place the id of the photo here">
-        <img src="/static/images/dog-on-road.jpg" alt="post" class="cover">
+    <div class="imgBx" id="{{ photo.pk }}">
+        <img src="{{ photo.photo }}" alt="post" class="cover">
     </div>
     <!-- -->
 
@@ -323,11 +323,14 @@
         <div class="actionBtns">
             <div class="left">
                     <span class="heart">
-                        <a href="#">
+                        <a href="{% url 'like-functionality' photo.pk %}">
                             <!-- if user has liked the photo -->
-                            <i class="fa-solid fa-heart" style="color: #ed4040;"></i>
+                            {% if photo.likes_photo.all %}
+                                <i class="fa-solid fa-heart" style="color: #ed4040;"></i>
                             <!-- else -->
-                            <i class="fa-regular fa-heart"></i>
+                            {% else %}
+                                <i class="fa-regular fa-heart"></i>
+                            {% endif %}
                         </a>
                     </span>
                 <a href="share">
@@ -337,8 +340,8 @@
         </div>
         <!-- -->
 
-        <a href="#">
-            <p class="likes">176 likes</p>
+        <a href="#">  <!-- will lead to a list of users that liked the photo i guess... -->
+            <p class="likes">{{ photo.likes_photo.count }}</p>
         </a>
 
         <!-- tagged pets -->
