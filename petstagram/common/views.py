@@ -1,7 +1,8 @@
 from lib2to3.fixes.fix_input import context
 from msilib.schema import ListView
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url
+from pyperclip import copy
 
 from petstagram.common.models import Like
 from petstagram.photos.models import Photo
@@ -32,5 +33,11 @@ def like_functionality(request, photo_id):
     else:
         like = Like(to_photo=photo)
         like.save()
+
+    return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
+
+
+def copy_link_to_clipboard(request, photo_id):
+    copy(request.META['HTTP_REFERER'] + resolve_url('details_photo', photo_id))
 
     return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
