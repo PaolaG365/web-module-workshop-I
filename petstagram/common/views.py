@@ -4,7 +4,8 @@ from msilib.schema import ListView
 from django.shortcuts import render, redirect, resolve_url
 from pyperclip import copy
 
-from petstagram.common.models import Like
+from petstagram.common.forms import CommentForm
+from petstagram.common.models import Like, Comment
 from petstagram.photos.models import Photo
 
 
@@ -13,8 +14,11 @@ from petstagram.photos.models import Photo
 
 def home_page(request):
     photos = Photo.objects.all()
+    comment_form = CommentForm()
+
     context = {
         'photos': photos,
+        'comment_form': comment_form,
     }
     return render(request, 'common/home-page.html', context=context)
 
@@ -41,3 +45,16 @@ def copy_link_to_clipboard(request, photo_id):
     copy(request.META['HTTP_REFERER'] + resolve_url('details_photo', photo_id))
 
     return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
+
+
+def add_comment(request, photo_id):
+    if request.method == "POST":
+        photo = Photo.objects.get(pk=photo_id)
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.to_photo = photo
+            comment.save()
+
+            return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
