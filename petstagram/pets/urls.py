@@ -13,7 +13,3 @@ urlpatterns = [
         path('delete/', views.delete_pet, name='delete_pet'),
     ]))
 ]
-
-if settings.DEBUG:  # pet photos dont load idk why at this point
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

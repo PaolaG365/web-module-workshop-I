@@ -48,7 +48,7 @@
                                 </a>
 
                                 <!-- Link to Delete Pet Photo Page -->
-                                <a href="#">  <!-- should lead to delete photo page once it exists ofc -->
+                                <a href="{% url 'delete_photo' photo_obj.pk %}">  <!-- lets just delete i guess... -->
                                     <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">
                                 </a>
                             </div>
@@ -63,7 +63,7 @@
                 <!-- Start Pet Photo -->
                 <div class="imgBx" id="{{ photo_obj.pk }}">
                     <!-- Pet Photo -->
-                    <img src="{{ photo_obj.photo }}" alt="post" class="cover">
+                    <img src="{{ photo_obj.photo.url }}" alt="post" class="cover">
                 </div>
                 <!-- End Pet Photo -->
 

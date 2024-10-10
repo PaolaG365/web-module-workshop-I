@@ -8,7 +8,7 @@ from petstagram.photos.validators import ImageSizeValidator
 
 class Photo(models.Model):
     photo = models.ImageField(
-        upload_to='petPhotos/',
+        upload_to='media/',
         validators=[ImageSizeValidator(5, 'MB', 'The maximum image size can that be uploaded is 5Mb.')]
     )
 
