@@ -27,7 +27,7 @@ class Photo(models.Model):
     tagged_pets = models.ManyToManyField(
         to=Pet,
         blank=True,
-        related_name='tagged_pets'
+        related_name='tagged_pets'  # should've named it better tagged_photos idk
     )
 
     date_of_publication = models.DateField(

@@ -102,20 +102,8 @@
 
                     <!-- Number of Likes for the Photo -->
                     <p class="likes">{{ likes.count }}</p>
-
+                
                     <!-- Start Tagged Pets Section-->
-                    <!-- Link to First Tagged Pet Details Page -->
-{#                    <a href="#">#}
-{#                        <p class="message">#}
-{#                            <b>Sasho</b>#}
-{#                        </p>#}
-{#                    </a>#}
-                    <!-- Link to Second Tagged Pet Details Page -->
-{#                    <a href="#">#}
-{#                        <p class="message">#}
-{#                            <b>Some other fish</b>#}
-{#                        </p>#}
-{#                    </a>#}
                     {% for pet in photo_obj.tagged_pets.all %}
                         <a href="{% url 'details_pet' "username" pet.slug %}">
                             <p class="message">
@@ -167,9 +155,7 @@
 
                     <!-- Start Add Comments Form -->
                     <form method="post" action="{% url 'add-comment' photo_obj.pk %}">
-{#                        <label for="id_body">Body:</label>#}
-{#                        <textarea name="body" cols="40" rows="10" placeholder="Add comment..." maxlength="300"#}
-{#                                  required="" id="id_body"></textarea>#}
+
                         {% csrf_token %}
                         {{ comment_form }}
                         <!-- Post Comments Button -->
