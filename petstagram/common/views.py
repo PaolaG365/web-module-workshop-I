@@ -1,6 +1,5 @@
-from lib2to3.fixes.fix_input import context
-from msilib.schema import ListView
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.views.generic import ListView
 from django.shortcuts import render, redirect, resolve_url
 from pyperclip import copy
 
@@ -17,10 +16,22 @@ def home_page(request):
     comment_form = CommentForm()
     search_form = SearchForm(request.GET)
 
-    if search_form.is_valid():
-        photos = photos.filter(
-            tagged_pets__name__icontains=search_form.cleaned_data['pet_name'],
-        )
+    if request.method == 'POST':
+        if search_form.is_valid():
+            photos = photos.filter(
+                tagged_pets__name__icontains=search_form.cleaned_data['pet_name'],
+            )
+
+    photos_per_page = 1
+    paginator = Paginator(photos, photos_per_page)
+    page = request.GET.get('page')
+
+    try:
+        photos = paginator.page(page)
+    except PageNotAnInteger:
+        photos = paginator.page(1)
+    except EmptyPage:
+        photos = paginator.page(paginator.num_pages)
 
     context = {
         'photos': photos,
@@ -28,6 +39,28 @@ def home_page(request):
         'search_form': search_form,
     }
     return render(request, 'common/home-page.html', context=context)
+
+
+class HomePageView(ListView):
+    model = Photo
+    template_name = 'common/home-page.html'
+    context_object_name = 'photos'
+    paginate_by = 2
+
+    def get_context_data(self, ** kwargs):
+        context = super().get_context_data(** kwargs)
+        context['comment_form'] = CommentForm()
+        context['search_form'] = SearchForm(self.request.GET)
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        pet_name = self.request.GET.get('pet_name')
+
+        if pet_name:
+            queryset = queryset.filter(tagged_pets__name__icontains=pet_name)
+
+        return queryset
 
 
 def like_functionality(request, photo_id):
